@@ -12,7 +12,9 @@ import "./App.css";
 
 import type { GraphQLSchema } from "graphql";
 
-function fetcher(params: Object, url:string): Object {
+const url = process.env.REACT_APP_GRAPHQL_URL || "http://localhost:8888/graphql"
+
+function fetcher(params: Object): Object {
   return fetch(
     url,
     {
@@ -57,7 +59,7 @@ class App extends Component<Props, State> {
   state = { schema: null, query: DEFAULT_QUERY, explorerIsOpen: true };
 
   componentDidMount() {
-    fetcher({ query: getIntrospectionQuery()}, this.props.url).then(result => {
+    fetcher({ query: getIntrospectionQuery()}).then(result => {
       const editor = this._graphiql.getQueryEditor();
       editor.setOption("extraKeys", {
         ...(editor.options.extraKeys || {}),

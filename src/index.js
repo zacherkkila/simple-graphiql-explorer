@@ -4,11 +4,9 @@ import './index.css';
 import App from './App';
 import * as serviceWorker from './serviceWorker';
 
-console.log(process.env.REACT_APP_GRAPHQL_URL)
-
 ReactDOM.render(
   <React.StrictMode>
-    <App url={process.env.REACT_APP_GRAPHQL_URL || "http://localhost:8888/graphql"}/>
+    <App />
   </React.StrictMode>,
   document.getElementById('root')
 );
