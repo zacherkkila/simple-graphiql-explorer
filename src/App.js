@@ -12,32 +12,6 @@ import "./App.css";
 
 import type { GraphQLSchema } from "graphql";
 
-const url = process.env.REACT_APP_GRAPHQL_URL || "http://localhost:8888/graphql"
-
-function fetcher(params: Object): Object {
-  return fetch(
-    url,
-    {
-      method: "POST",
-      headers: {
-        Accept: "application/json",
-        "Content-Type": "application/json"
-      },
-      body: JSON.stringify(params)
-    }
-  )
-    .then(function(response) {
-      return response.text();
-    })
-    .then(function(responseBody) {
-      try {
-        return JSON.parse(responseBody);
-      } catch (e) {
-        return responseBody;
-      }
-    });
-}
-
 const DEFAULT_QUERY = `# shift-option/alt-click on a query below 
 # to jump to it in the explorer
 # option/alt-click on a field in the explorer 
@@ -47,19 +21,54 @@ const DEFAULT_QUERY = `# shift-option/alt-click on a query below
 type State = {
   schema: ?GraphQLSchema,
   query: string,
-  explorerIsOpen: boolean
+  explorerIsOpen: boolean,
+  url:string
 };
 
 type Props = {
   url: string
 };
 
+var savedUrl = localStorage.getItem("url") || "http://localhost:8888/graphql"
+
 class App extends Component<Props, State> {
   _graphiql: GraphiQL;
-  state = { schema: null, query: DEFAULT_QUERY, explorerIsOpen: true };
+  state = {   
+    schema: null, 
+    query: DEFAULT_QUERY, 
+    explorerIsOpen: true, 
+    url:savedUrl};
+
+  fetcher(params: Object): Object {
+    return fetch(
+      savedUrl,
+      {
+        method: "POST",
+        headers: {
+          Accept: "application/json",
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify(params)
+      }
+    )
+      .then(function(response) {
+        return response.text();
+      })
+      .then(function(responseBody) {
+        try {
+          return JSON.parse(responseBody);
+        } catch (e) {
+          return responseBody;
+        }
+      });
+  }
 
   componentDidMount() {
-    fetcher({ query: getIntrospectionQuery()}).then(result => {
+    this.init()
+  }
+
+  init() {
+    this.fetcher({ query: getIntrospectionQuery()}).then(result => {
       const editor = this._graphiql.getQueryEditor();
       editor.setOption("extraKeys", {
         ...(editor.options.extraKeys || {}),
@@ -134,6 +143,11 @@ class App extends Component<Props, State> {
     this.setState({ explorerIsOpen: !this.state.explorerIsOpen });
   };
 
+  _handleSetUrl = () => {
+    localStorage.setItem("url", this.state.url)
+    window.location.reload()
+  }
+
   render() {
     const { query, schema } = this.state;
     return (
@@ -152,7 +166,7 @@ class App extends Component<Props, State> {
         />
         <GraphiQL
           ref={ref => (this._graphiql = ref)}
-          fetcher={fetcher}
+          fetcher={this.fetcher}
           schema={schema}
           query={query}
           onEditQuery={this._handleEditQuery}
@@ -173,6 +187,15 @@ class App extends Component<Props, State> {
               label="Explorer"
               title="Toggle Explorer"
             />
+            <span className="url-input-wrap">
+              GraphQL API:&nbsp;
+              <input className="url-input" type="text" onChange={(ev) => this.setState({url:ev.target.value})} value={this.state.url} />
+              <GraphiQL.Button
+                onClick={this._handleSetUrl}
+                label="Set URL"
+                title="Set URL"
+              />
+            </span>
           </GraphiQL.Toolbar>
         </GraphiQL>
       </div>
