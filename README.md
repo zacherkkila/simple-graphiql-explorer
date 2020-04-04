@@ -22,7 +22,7 @@ Based on the example from [OneGraph](https://github.com/OneGraph/graphiql-explor
 
 `yarn start` - Starts GraphiQL
 
-- or -
+or
 
 `yarn start-open-browser` - Starts GraphiQL and opens a new browser tab at that location
 
