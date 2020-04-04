@@ -2,6 +2,8 @@
 
 Based on the example from [OneGraph](https://github.com/OneGraph/graphiql-explorer) but adds a field to manually enter your url. Useful to get the advanced OneGraph explorer for GraphiQL without needing to manually bake it into you project.
 
+![screenshot](https://raw.githubusercontent.com/zacherkkila/simple-graphiql-explorer/master/screenshots/screenshot.png)
+
 ### Install
 
 `git clone https://github.com/zacherkkila/simple-graphiql-explorer`
