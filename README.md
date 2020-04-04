@@ -1,22 +1,22 @@
-# GraphiQL explorer client with the ability to set your URL from the UI
+## GraphiQL explorer client with the ability to set your URL from the UI
 
 Based on the example from [OneGraph](https://github.com/OneGraph/graphiql-explorer) but adds a field to manually enter your url. Useful to get the advanced OneGraph explorer for GraphiQL without needing to manually bake it into you project.
 
-## Install
+### Install
 
 `git clone https://github.com/zacherkkila/simple-graphiql-explorer`
 
 `yarn`
 
-## Run Dev
+### Run Dev
 
 `yarn start`
 
-## Build
+### Build
 
 `yarn build`
 
-## Running Built Package
+### Running Built Package
 
 `cd dist`
 
@@ -26,7 +26,7 @@ Based on the example from [OneGraph](https://github.com/OneGraph/graphiql-explor
 
 `yarn start-open-browser` - Starts GraphiQL and opens a new browser tab at that location
 
-## Example: Include in your package to start automatically when running your project
+### Example: Include in your package to start automatically when running your project
 
 package.json
 ```
