@@ -12,9 +12,9 @@ import "./App.css";
 
 import type { GraphQLSchema } from "graphql";
 
-function fetcher(params: Object): Object {
+function fetcher(params: Object, url:string): Object {
   return fetch(
-    "http://localhost:8888/graphql",
+    url,
     {
       method: "POST",
       headers: {
@@ -48,14 +48,16 @@ type State = {
   explorerIsOpen: boolean
 };
 
-class App extends Component<{}, State> {
+type Props = {
+  url: string
+};
+
+class App extends Component<Props, State> {
   _graphiql: GraphiQL;
   state = { schema: null, query: DEFAULT_QUERY, explorerIsOpen: true };
 
   componentDidMount() {
-    fetcher({
-      query: getIntrospectionQuery()
-    }).then(result => {
+    fetcher({ query: getIntrospectionQuery()}, this.props.url).then(result => {
       const editor = this._graphiql.getQueryEditor();
       editor.setOption("extraKeys", {
         ...(editor.options.extraKeys || {}),
