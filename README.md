@@ -1,4 +1,4 @@
-# Simple GraphiQL explorer client with the ability to set your desired URL
+# GraphiQL explorer client with the ability to set your URL from the UI
 
 Based on the example from [OneGraph](https://github.com/OneGraph/graphiql-explorer) but adds a field to manually enter your url. Useful to get the advanced OneGraph explorer for GraphiQL without needing to manually bake it into you project.
 
